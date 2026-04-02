@@ -1,6 +1,7 @@
 import { getCookie } from "@/helper/cookies";
 import CardService from "./card-service";
 import Link from "next/link";
+import Searching from "@/components/search";
 
 export interface ServiceResponse {
   success: boolean; //true or false
@@ -19,11 +20,15 @@ export interface ServiceType {
   createdAt: string;
   updatedAt: string;
 }
-
+type Props = {
+    searchParams: Promise<{
+        search?:string
+    }>
+}
 /**create function to get all data service from BE */
-async function getServices(): Promise<ServiceResponse> {
+async function getServices(params: { search?: string }): Promise<ServiceResponse> {
   try {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/services`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/services?search=${params.search}`;
     const respone = await fetch(url, {
       method: "GET",
       headers: {
@@ -55,8 +60,10 @@ async function getServices(): Promise<ServiceResponse> {
   }
 }
 
-export default async function AdminServicesPage() {
-  const { success, message, data, count } = await getServices();
+export default async function AdminServicesPage(props: Props) {
+  const searchParams = await props.searchParams;
+    const { search = ""} = searchParams;
+  const { success, message, data, count } = await getServices({search});
 
   if (!success) {
     return <div className="w-full p-5">Soryy {message}</div>;
@@ -76,6 +83,7 @@ export default async function AdminServicesPage() {
             Add New Service
         </button>
       </Link>
+      <Searching search={search} />
 
       {count == 0 ? (
         <div className="w-full rounded p-5 bg-yellow-500 font-semibold">
