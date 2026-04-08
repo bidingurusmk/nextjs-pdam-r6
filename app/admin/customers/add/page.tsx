@@ -20,7 +20,7 @@ export default async function AdminCustomerPage() {
       <p className="text-slate-500">
         This page is to add a new Customer.
       </p>
-      <AddCustomerForm />
+      <AddCustomerForm serviceList={servicesData.data}/>
     </div>
   );
 }

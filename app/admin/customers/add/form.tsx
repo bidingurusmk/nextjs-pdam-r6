@@ -6,7 +6,7 @@ import { FormEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AddCustomerForm() {
+export default function AddCustomerForm({serviceList}: {serviceList: any[]}) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [customerNumber, setCustomerNumber] = useState<string>("");
@@ -156,12 +156,17 @@ export default function AddCustomerForm() {
 
       <div className="my-2 flex flex-col">
         <label className="font-semibold text-sky-500">Service ID</label>
-        <input
-          type="number"
-          value={serviceId}
-          onChange={(e) => setServiceId(Number(e.target.value))}
-          className="w-full border rounded p-2"
-        />
+        <select name="service_id" id="service_id" value={serviceId} 
+        onChange={e=>setServiceId(Number(e.target.value))} 
+        className="mt-1 block w-full border border-gray-300 
+        rounded-md p-2">
+          <option value="">Pilih Service</option>
+          {serviceList?.map((service) => (
+              <option key={service.id} value={service.id}>
+                  {service.name}
+              </option>
+          ))}
+      </select>
       </div>
 
       <button
