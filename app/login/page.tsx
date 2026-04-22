@@ -58,7 +58,7 @@ export default function LoginPage() {
           setInterval(() => router.replace(`/admin/profile`), 1000); //redirect ke halaman admin/profile
         }
         if (role === "CUSTOMER") {
-          setInterval(() => router.replace(`/customer/profile`), 1000); //redirect ke halaman customer/profile
+          setInterval(() => router.replace(`/customer/dashboard`), 1000); //redirect ke halaman customer/dashboard
         }
 
       } else {
